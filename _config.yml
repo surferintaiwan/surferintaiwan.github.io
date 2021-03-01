@@ -104,4 +104,4 @@ theme: next
 deploy:
   type: 'git'
   repo: 
-    github: git@github.com:surferintaiwan/surferintaiwan.github.io.git
+    github: https://github.com/surferintaiwan/surferintaiwan.github.io.git
