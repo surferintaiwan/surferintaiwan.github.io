@@ -48,6 +48,15 @@
   <title>關於我 | 不Shawn樣的部落格
 </title>
   
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-NH242MKL5C"></script>
+    <script>
+      if (CONFIG.hostname === location.hostname) {
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-NH242MKL5C');
+      }
+    </script>
 
 
 
@@ -121,7 +130,12 @@
   </li>
         <li class="menu-item menu-item-about">
 
-    <a href="/about" rel="section"><i class="fa fa-user fa-fw"></i>關於我</a>
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>關於我</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>標籤</a>
 
   </li>
         <li class="menu-item menu-item-archives">
@@ -255,9 +269,15 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">1</span>
+          <span class="site-state-item-count">2</span>
           <span class="site-state-item-name">文章</span>
         </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">1</span>
+        <span class="site-state-item-name">標籤</span></a>
       </div>
   </nav>
 </div>
