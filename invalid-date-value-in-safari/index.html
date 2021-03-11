@@ -20,17 +20,19 @@
     var CONFIG = {"hostname":"surferintaiwan.github.io","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
-  <meta name="description" content="希望我可以每週持續更新，加油~~">
-<meta property="og:type" content="website">
-<meta property="og:title" content="不Shawn樣的部落格">
-<meta property="og:url" content="http://surferintaiwan.github.io/archives/2021/index.html">
+  <meta name="description" content="因為先前有個新專案快要上線，PM就開始猛測試，發現某個表單用了iPhone的Safari去送出就會失敗，但Android手機的其他人用Chrome卻可以送出表單。 其實只要是Safari，手機遇到的問題，Mac上也會有不過我們沒有iPhone的轉接線可以轉接到電腦上看到底是報了什麼錯，只好不斷改code不斷寫alert不斷部署上去，用iPhone看看alert出來的資料，最後發現有個日期的部分印出">
+<meta property="og:type" content="article">
+<meta property="og:title" content="invalid_date_value_in_safari">
+<meta property="og:url" content="http://surferintaiwan.github.io/invalid-date-value-in-safari/index.html">
 <meta property="og:site_name" content="不Shawn樣的部落格">
-<meta property="og:description" content="希望我可以每週持續更新，加油~~">
+<meta property="og:description" content="因為先前有個新專案快要上線，PM就開始猛測試，發現某個表單用了iPhone的Safari去送出就會失敗，但Android手機的其他人用Chrome卻可以送出表單。 其實只要是Safari，手機遇到的問題，Mac上也會有不過我們沒有iPhone的轉接線可以轉接到電腦上看到底是報了什麼錯，只好不斷改code不斷寫alert不斷部署上去，用iPhone看看alert出來的資料，最後發現有個日期的部分印出">
 <meta property="og:locale" content="zh_TW">
+<meta property="article:published_time" content="2021-03-11T14:59:58.000Z">
+<meta property="article:modified_time" content="2021-03-11T15:01:54.675Z">
 <meta property="article:author" content="Shawn">
 <meta name="twitter:card" content="summary">
 
-<link rel="canonical" href="http://surferintaiwan.github.io/archives/2021/">
+<link rel="canonical" href="http://surferintaiwan.github.io/invalid-date-value-in-safari/">
 
 
 <script id="page-configurations">
@@ -38,12 +40,12 @@
   CONFIG.page = {
     sidebar: "",
     isHome : false,
-    isPost : false,
+    isPost : true,
     lang   : 'zh-TW'
   };
 </script>
 
-  <title>歸檔 | 不Shawn樣的部落格</title>
+  <title>invalid_date_value_in_safari | 不Shawn樣的部落格</title>
   
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-NH242MKL5C"></script>
     <script>
@@ -161,90 +163,82 @@
         <div class="content-wrap">
           
 
-          <div class="content archive">
+          <div class="content post posts-expand">
             
 
+    
   
   
-  
-  <div class="post-block">
-    <div class="posts-collapse">
-      <div class="collection-title">
-        <span class="collection-header">嗯..! 目前共有 3 篇文章。 繼續努力。</span>
-      </div>
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-TW">
+    <link itemprop="mainEntityOfPage" href="http://surferintaiwan.github.io/invalid-date-value-in-safari/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Shawn">
+      <meta itemprop="description" content="希望我可以每週持續更新，加油~~">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="不Shawn樣的部落格">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          invalid_date_value_in_safari
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">發表於</span>
+              
+
+              <time title="創建時間：2021-03-11 22:59:58 / 修改時間：23:01:54" itemprop="dateCreated datePublished" datetime="2021-03-11T22:59:58+08:00">2021-03-11</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
 
       
-    <div class="collection-year">
-      <span class="collection-header">2021</span>
-    </div>
-
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <div class="post-meta">
-        <time itemprop="dateCreated"
-              datetime="2021-03-11T22:59:58+08:00"
-              content="2021-03-11">
-          03-11
-        </time>
-      </div>
-
-      <div class="post-title">
-          <a class="post-title-link" href="/invalid-date-value-in-safari/" itemprop="url">
-            <span itemprop="name">invalid_date_value_in_safari</span>
-          </a>
-      </div>
-
-    </header>
-  </article>
-
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <div class="post-meta">
-        <time itemprop="dateCreated"
-              datetime="2021-03-03T23:18:55+08:00"
-              content="2021-03-03">
-          03-03
-        </time>
-      </div>
-
-      <div class="post-title">
-          <a class="post-title-link" href="/%E6%B8%AC%E8%A9%A6/" itemprop="url">
-            <span itemprop="name">測試</span>
-          </a>
-      </div>
-
-    </header>
-  </article>
-
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <div class="post-meta">
-        <time itemprop="dateCreated"
-              datetime="2021-03-01T23:17:54+08:00"
-              content="2021-03-01">
-          03-01
-        </time>
-      </div>
-
-      <div class="post-title">
-          <a class="post-title-link" href="/hello-world/" itemprop="url">
-            <span itemprop="name">第一頁hello world</span>
-          </a>
-      </div>
-
-    </header>
-  </article>
-
+        <p>因為先前有個新專案快要上線，PM就開始猛測試，發現某個表單用了iPhone的Safari去送出就會失敗，但Android手機的其他人用Chrome卻可以送出表單。</p>
+<h2 id="其實只要是Safari，手機遇到的問題，Mac上也會有"><a href="#其實只要是Safari，手機遇到的問題，Mac上也會有" class="headerlink" title="其實只要是Safari，手機遇到的問題，Mac上也會有"></a>其實只要是Safari，手機遇到的問題，Mac上也會有</h2><p>不過我們沒有iPhone的轉接線可以轉接到電腦上看到底是報了什麼錯，只好不斷改code不斷寫alert不斷部署上去，用iPhone看看alert出來的資料，最後發現有個日期的部分印出來是NaN，而該日期是透過new Date()產生的，因此就開始往new Date()跟Safari的方向研究。</p>
+<p>(題外話，其實不用那麼蠢的說…因為我一開始聽信PM說Mac上的Safari沒問題，唯獨iPhone的Safari有問題，我只好一直不斷部署上去再用iPhone去測，最後當我找到問題時我才想到用一下Mac上的Safari去測一下，發現其實也是有問題的，如果我早點用Mac的Safari測，就可以馬上看到報錯是什麼，免去我抓問題抓那麼久Q”Q)</p>
+<h2 id="慎用new-Date"><a href="#慎用new-Date" class="headerlink" title="慎用new Date()"></a>慎用new Date()</h2><p>底下開始正式說明問題。我的需求是希望塞一個特定的日期時間進去new Date()，去產出一個我想要的date像是這樣<code>new Date(&#39;2013-05-13 03:00&#39;)</code>，但這樣的寫法在Chrome或其他瀏覽器上產出來的值確實是正確的date格式。可到了Safari上就會轉不過去了，<a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/16616950/date-function-returning-invalid-date-in-safari-and-firefox">上網查到這篇</a>，必須要寫成<code>new Date(&#39;2013-05-13T03:00:00Z&#39;)</code>，Safari才會順利讓new Date()產出我要的date格式。</p>
+<h2 id="Safari對於new-Date-使用較嚴格的感覺"><a href="#Safari對於new-Date-使用較嚴格的感覺" class="headerlink" title="Safari對於new Date()使用較嚴格的感覺"></a>Safari對於new Date()使用較嚴格的感覺</h2><p>總之是Safari比較嚴格，會需要你輸入new Date()裡面輸入的值要非常完整，至於Chrome之類其他的瀏覽器就沒那麼嚴格，輸入大致的時間格式就可以清楚幫你轉換了。</p>
+<h2 id="結論：日後有日產出特定date格式的需求，盡量以moment套件來做"><a href="#結論：日後有日產出特定date格式的需求，盡量以moment套件來做" class="headerlink" title="結論：日後有日產出特定date格式的需求，盡量以moment套件來做"></a>結論：日後有日產出特定date格式的需求，盡量以moment套件來做</h2><p>但其實要補中間的T跟後面的Z我覺得有點麻煩，最後是直接以moment套件寫<code>moment(&#39;2013-05-13 03:00&#39;).toDate()</code>，去產出我要的date格式，而以moment套件產出的date經實測確實可以讓Safari或Chrome等等瀏覽器都可以正常運行。</p>
 
     </div>
-  </div>
-  
-  
-  
 
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/%E6%B8%AC%E8%A9%A6/" rel="prev" title="測試">
+      <i class="fa fa-chevron-left"></i> 測試
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
   
 
 
@@ -297,6 +291,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%B6%E5%AF%A6%E5%8F%AA%E8%A6%81%E6%98%AFSafari%EF%BC%8C%E6%89%8B%E6%A9%9F%E9%81%87%E5%88%B0%E7%9A%84%E5%95%8F%E9%A1%8C%EF%BC%8CMac%E4%B8%8A%E4%B9%9F%E6%9C%83%E6%9C%89"><span class="nav-number">1.</span> <span class="nav-text">其實只要是Safari，手機遇到的問題，Mac上也會有</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%85%8E%E7%94%A8new-Date"><span class="nav-number">2.</span> <span class="nav-text">慎用new Date()</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Safari%E5%B0%8D%E6%96%BCnew-Date-%E4%BD%BF%E7%94%A8%E8%BC%83%E5%9A%B4%E6%A0%BC%E7%9A%84%E6%84%9F%E8%A6%BA"><span class="nav-number">3.</span> <span class="nav-text">Safari對於new Date()使用較嚴格的感覺</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%B5%90%E8%AB%96%EF%BC%9A%E6%97%A5%E5%BE%8C%E6%9C%89%E6%97%A5%E7%94%A2%E5%87%BA%E7%89%B9%E5%AE%9Adate%E6%A0%BC%E5%BC%8F%E7%9A%84%E9%9C%80%E6%B1%82%EF%BC%8C%E7%9B%A1%E9%87%8F%E4%BB%A5moment%E5%A5%97%E4%BB%B6%E4%BE%86%E5%81%9A"><span class="nav-number">4.</span> <span class="nav-text">結論：日後有日產出特定date格式的需求，盡量以moment套件來做</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
