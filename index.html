@@ -172,6 +172,76 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-TW">
+    <link itemprop="mainEntityOfPage" href="http://surferintaiwan.github.io/detectIOSVersion/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Shawn">
+      <meta itemprop="description" content="希望我可以每週持續更新，加油~~">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="不Shawn樣的部落格">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/detectIOSVersion/" class="post-title-link" itemprop="url">檢查iOS版本號是否為14</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">發表於</span>
+              
+
+              <time title="創建時間：2021-04-15 22:32:33 / 修改時間：22:43:27" itemprop="dateCreated datePublished" datetime="2021-04-15T22:32:33+08:00">2021-04-15</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>最近在串Webex直播，但發現iOS 13以下(包含13)就都沒辦法顯示視訊畫面，所以必須判斷13以下的都要另外跳另外的alert，問了Google大神，看了幾篇終於找到以下這個寫法去判斷iOS版本。</p>
+<p>基本上就是透過navigator.platform拿到使用者的裝置資料，而iOS的版本號都是3個數字組成，像是iPhone OS 4_3_3，所以必須用正則表示式把這三個數字切出來，至於我們要判斷的其實只要判斷第一個數字即可。</p>
+<p><a target="_blank" rel="noopener" href="https://stackblitz.com/edit/angular-detect-ios-version-is-14">https://stackblitz.com/edit/angular-detect-ios-version-is-14</a></p>
+<p>```<br>    function iOSversion() {<br>      // if (/iP(hone|od|ad)/.test(navigator.platform)) {<br>      // iOS version will be like iPhone OS 4_3_3, you will get three digits<br>      var v = navigator.appVersion.match(/OS (\d+)<em>(\d+)</em>?(\d+)?/);<br>      return [<br>        parseInt(v[1], 10),<br>        parseInt(v[2], 10),<br>        parseInt(v[3] || (0 as any), 10)<br>      ];<br>      // }<br>    }</p>
+<pre><code>const ver = iOSversion();
+
+if (ver[0] &gt;= 14) &#123;
+  alert(&quot;iOS version is&quot; + ver);
+&#125; else &#123;
+  alert(&quot;iOS version less than 14&quot;);
+&#125;```
+</code></pre>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-TW">
     <link itemprop="mainEntityOfPage" href="http://surferintaiwan.github.io/invalid-date-value-in-safari/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -379,7 +449,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">2</span>
+          <span class="site-state-item-count">3</span>
           <span class="site-state-item-name">文章</span>
         </a>
       </div>
