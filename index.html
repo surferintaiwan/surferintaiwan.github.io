@@ -197,7 +197,7 @@
               <span class="post-meta-item-text">發表於</span>
               
 
-              <time title="創建時間：2021-04-15 22:32:33 / 修改時間：22:59:13" itemprop="dateCreated datePublished" datetime="2021-04-15T22:32:33+08:00">2021-04-15</time>
+              <time title="創建時間：2021-04-15 22:32:33 / 修改時間：23:01:53" itemprop="dateCreated datePublished" datetime="2021-04-15T22:32:33+08:00">2021-04-15</time>
             </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -221,7 +221,8 @@
 
       
           <p>最近在串Webex直播，但發現iOS 13以下(包含13)就都沒辦法顯示視訊畫面，所以必須判斷13以下的都要另外跳另外的alert，問了Google大神，看了幾篇終於找到以下這個寫法去判斷iOS版本。</p>
-<p>基本上就是透過navigator.platform拿到使用者的裝置資料，而iOS的版本號都是3個數字組成，像是iPhone OS 4_3_3，所以必須用正則表示式把這三個數字切出來，至於我們要判斷的其實只要判斷第一個數字即可。</p>
+<p>基本上就是透過navigator.appVersion拿到使用者的裝置資料，而iOS的版本號都是3個數字組成，像是iPhone OS 4_3_3，所以必須用正則表示式把這三個數字切出來，至於我們要判斷的其實只要判斷第一個數字即可。</p>
+<p>而navigator.platform那一段我先註解掉了，因為我不需要先判斷他是不是iPhone或iPod或iPad，我只要確定他的appVersion是OS開頭的即可。</p>
 <p>參考連結: <a target="_blank" rel="noopener" href="https://stackblitz.com/edit/angular-detect-ios-version-is-14">https://stackblitz.com/edit/angular-detect-ios-version-is-14</a></p>
 <pre><code>function iOSversion() &#123;
   // if (/iP(hone|od|ad)/.test(navigator.platform)) &#123;
