@@ -172,6 +172,93 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-TW">
+    <link itemprop="mainEntityOfPage" href="http://surferintaiwan.github.io/firebase-hosting-preview-channel/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Shawn">
+      <meta itemprop="description" content="希望我可以每週持續更新，加油~~">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="不Shawn樣的部落格">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/firebase-hosting-preview-channel/" class="post-title-link" itemprop="url">Firebase Hosting Preview Channel建立測試環境的新方法</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">發表於</span>
+              
+
+              <time title="創建時間：2021-04-28 21:48:29 / 修改時間：22:22:52" itemprop="dateCreated datePublished" datetime="2021-04-28T21:48:29+08:00">2021-04-28</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分類於</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/firebase/" itemprop="url" rel="index"><span itemprop="name">firebase</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>以前開發前端頁面的時候，都會建兩個hosting，一個是正式環境、一個是測試環境像下面這樣。</p>
+<p>但現在不用這麼麻煩了，只需要建立一個hosting，至於想要在同一個hosting下產出多少個測試環境都沒關係都不會影響到正式環境，因為他會依據我們建立的每個測試環境再產出一個全新的網址出來。</p>
+<p>會發現這個是因為最近在幫客戶改功能，但我們PM把正式環境網址跟測試環境網址都提供給客戶了，所以需要再建一個hosting作為真正的內部開發環境來用，可是還需要改個<code>firebase.json</code>和<code>.firebaserc</code>，因此也在無意間發現了Firebase Hosting Preview Channel這個不曾用過的功能。</p>
+<p><img src="firebase-hosting-preview-channel/firebase_hosting.png" alt="firebase_hosting"></p>
+<h2 id="Firebase-Hosting-Preview-Channel"><a href="#Firebase-Hosting-Preview-Channel" class="headerlink" title="Firebase Hosting Preview Channel"></a>Firebase Hosting Preview Channel</h2><p><a target="_blank" rel="noopener" href="https://firebase.google.com/docs/hosting/manage-hosting-resources">詳細官方文件</a>可以看這，以前我們直接deploy上去hosting的時候，都是在Live Channel上，但如下圖現在我們可以deploy很多個Preview channel，每個Preview channel都會有獨立的網址可以用，甚至可以限制該網址的有效期限。</p>
+<p><img src="firebase-hosting-preview-channel/firebase_hosting_preview_channel_structure.png" alt="firebase_hosting_preview_channel_structure"></p>
+<h2 id="下channel指令部署到特定的hosting之下"><a href="#下channel指令部署到特定的hosting之下" class="headerlink" title="下channel指令部署到特定的hosting之下"></a>下channel指令部署到特定的hosting之下</h2><figure class="highlight jsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">firebase hosting:channel:deploy --only TARGET_NAME CHANNEL_ID --expires 1d</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>TARGET_NAME: 看你原本部署在你要的hosting都是下什麼TARGET_NAME，那就採用TARGET_NAME即可。</li>
+<li>CHANNEL_ID: 取一個自己想要的名字就好，這個會出現在最後產出的新網址上。</li>
+<li>—expires 1d: 1d就是一天，看要設個12h, 7d, 2w都可，就算現在設完想要改也可以直接去firebase hosting後台改。</li>
+</ul>
+<h2 id="部署完成"><a href="#部署完成" class="headerlink" title="部署完成"></a>部署完成</h2><p>部署完後就會拿到新網址，<a target="_blank" rel="noopener" href="https://kymco-tw-dealer-dev--preview-nl7nz91f.web.app/">https://aler-dev–[bbb]-[ccc].web.app</a>，</p>
+<ul>
+<li>aler-dev: 就是原本部署指定的TARGET_NAME所指向的hosting</li>
+<li>bbb: 就是CHANNEL_ID，也就是preview</li>
+<li>ccc: 自動產的亂數隨機碼</li>
+</ul>
+<p>hosting後台也可以看到多了一個channel如下圖。<br><img src="firebase-hosting-preview-channel/preview_channel_success.png" alt="preview_channel_success"></p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-TW">
     <link itemprop="mainEntityOfPage" href="http://surferintaiwan.github.io/angular-signaturepad/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -552,20 +639,20 @@ if (ver[0] &gt;= 14) &#123;
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">4</span>
+          <span class="site-state-item-count">5</span>
           <span class="site-state-item-name">文章</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-count">3</span>
         <span class="site-state-item-name">分類</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-count">7</span>
         <span class="site-state-item-name">標籤</span></a>
       </div>
   </nav>
