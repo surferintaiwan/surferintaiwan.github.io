@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"surferintaiwan.github.io","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="Demo Code 最近在寫一個多步驟的問卷功能，而問卷其中一個步驟的其中一題是必填，但該題是多選又要限制使用者最多只能選三個選項，上網查了有點久原來可以用fomArray來處理。 一、使用mat-stepper建立步驟的驗證1.import要用到的幾個套件(記得在ngModule的imports要記得引入)123456&#x2F;&#x2F; app.module.tsimport &amp;#123;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="angular-multiple-options-validate-with-fromGroup-and-formArray">
+<meta property="og:url" content="http://surferintaiwan.github.io/angular-multiple-options-validate-with-fromGroup-and-formArray/index.html">
+<meta property="og:site_name" content="不Shawn樣的部落格">
+<meta property="og:description" content="Demo Code 最近在寫一個多步驟的問卷功能，而問卷其中一個步驟的其中一題是必填，但該題是多選又要限制使用者最多只能選三個選項，上網查了有點久原來可以用fomArray來處理。 一、使用mat-stepper建立步驟的驗證1.import要用到的幾個套件(記得在ngModule的imports要記得引入)123456&#x2F;&#x2F; app.module.tsimport &amp;#123;">
+<meta property="og:locale" content="zh_TW">
+<meta property="article:published_time" content="2021-05-13T15:45:19.000Z">
+<meta property="article:modified_time" content="2021-05-13T15:48:19.631Z">
+<meta property="article:author" content="Shawn">
+<meta property="article:tag" content="javascript">
+<meta property="article:tag" content="angular">
+<meta property="article:tag" content="angular stepper">
+<meta property="article:tag" content="angular formarray">
+<meta property="article:tag" content="angular formgroup">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://surferintaiwan.github.io/angular-multiple-options-validate-with-fromGroup-and-formArray/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-TW'
+  };
+</script>
+
+  <title>angular-multiple-options-validate-with-fromGroup-and-formArray | 不Shawn樣的部落格</title>
+  
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-NH242MKL5C"></script>
+    <script>
+      if (CONFIG.hostname === location.hostname) {
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-NH242MKL5C');
+      }
+    </script>
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切換導航欄">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">不Shawn樣的部落格</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">寫寫程式相關的學習筆記</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首頁</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>關於我</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>標籤</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分類</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>歸檔</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-TW">
+    <link itemprop="mainEntityOfPage" href="http://surferintaiwan.github.io/angular-multiple-options-validate-with-fromGroup-and-formArray/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Shawn">
+      <meta itemprop="description" content="希望我可以每週持續更新，加油~~">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="不Shawn樣的部落格">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          angular-multiple-options-validate-with-fromGroup-and-formArray
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">發表於</span>
+              
+
+              <time title="創建時間：2021-05-13 23:45:19 / 修改時間：23:48:19" itemprop="dateCreated datePublished" datetime="2021-05-13T23:45:19+08:00">2021-05-13</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分類於</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/angular/" itemprop="url" rel="index"><span itemprop="name">angular</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p><a target="_blank" rel="noopener" href="https://stackblitz.com/edit/angular-multiple-options-validate">Demo Code</a></p>
+<p>最近在寫一個多步驟的問卷功能，而問卷其中一個步驟的其中一題是必填，但該題是多選又要限制使用者最多只能選三個選項，上網查了有點久原來可以用fomArray來處理。</p>
+<h2 id="一、使用mat-stepper建立步驟的驗證"><a href="#一、使用mat-stepper建立步驟的驗證" class="headerlink" title="一、使用mat-stepper建立步驟的驗證"></a><strong>一、使用mat-stepper建立步驟的驗證</strong></h2><h3 id="1-import要用到的幾個套件-記得在ngModule的imports要記得引入"><a href="#1-import要用到的幾個套件-記得在ngModule的imports要記得引入" class="headerlink" title="1.import要用到的幾個套件(記得在ngModule的imports要記得引入)"></a><strong>1.import要用到的幾個套件(記得在ngModule的imports要記得引入)</strong></h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; app.module.ts</span><br><span class="line">import &#123; FormsModule &#125; from &#39;@angular&#x2F;forms&#39;;</span><br><span class="line">import &#123; ReactiveFormsModule &#125; from &#39;@angular&#x2F;forms&#39;;</span><br><span class="line">import &#123; MatFormFieldModule &#125; from &#39;@angular&#x2F;material&#x2F;form-field&#39;;</span><br><span class="line">import &#123; MatInputModule &#125; from &#39;@angular&#x2F;material&#x2F;input&#39;;</span><br><span class="line">import &#123; BrowserAnimationsModule &#125; from &#39;@angular&#x2F;platform-browser&#x2F;animations&#39;</span><br></pre></td></tr></table></figure>
+
+<h3 id="2-建立template-裡面有一些變數到後面會提到"><a href="#2-建立template-裡面有一些變數到後面會提到" class="headerlink" title="2.建立template(裡面有一些變數到後面會提到)"></a><strong>2.建立template</strong>(裡面有一些變數到後面會提到)</h3><p>這個部分不特別說明了，就是建立三個步驟的問卷，而我把主要要demo用的複選題放在了步驟1。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; app.component.html</span><br><span class="line">&lt;mat-horizontal-stepper [linear]&#x3D;&quot;isLinear&quot; #stepper&gt;</span><br><span class="line">  &lt;mat-step [stepControl]&#x3D;&quot;firstFormGroup&quot;&gt;</span><br><span class="line">    &lt;form [formGroup]&#x3D;&quot;firstFormGroup&quot;&gt;</span><br><span class="line">      &lt;ng-template matStepLabel&gt;Fill out your name&lt;&#x2F;ng-template&gt;</span><br><span class="line">      &lt;mat-form-field&gt;</span><br><span class="line">        &lt;mat-label&gt;Name&lt;&#x2F;mat-label&gt;</span><br><span class="line">        &lt;input matInput placeholder&#x3D;&quot;Last name, First name&quot; formControlName&#x3D;&quot;firstCtrl&quot; required&gt;</span><br><span class="line">      &lt;&#x2F;mat-form-field&gt;</span><br><span class="line">      &lt;div *ngFor&#x3D;&quot;let option of a1OptionsToArray; let i&#x3D;index&quot;&gt;</span><br><span class="line">        &lt;input type&#x3D;&quot;checkbox&quot; [value]&#x3D;&quot;option&quot; (change)&#x3D;&quot;[a1CheckboxChange($event),a1OptionLimitTo3()]&quot;</span><br><span class="line">        [disabled]&#x3D;&quot;a1Disabled &amp;&amp; !a1OptionsToObject[option][&#39;checked&#39;]&quot;&gt;</span><br><span class="line">        &#123;&#123;a1OptionsToObject[option][&#39;name&#39;]&#125;&#125;</span><br><span class="line">      &lt;&#x2F;div&gt;</span><br><span class="line">      &lt;div&gt;</span><br><span class="line">        &lt;button mat-button matStepperNext&gt;Next&lt;&#x2F;button&gt;</span><br><span class="line">      &lt;&#x2F;div&gt;</span><br><span class="line">    &lt;&#x2F;form&gt;</span><br><span class="line">  &lt;&#x2F;mat-step&gt;</span><br><span class="line">  &lt;mat-step [stepControl]&#x3D;&quot;secondFormGroup&quot; label&#x3D;&quot;Fill out your address&quot;&gt;</span><br><span class="line">    &lt;form [formGroup]&#x3D;&quot;secondFormGroup&quot;&gt;</span><br><span class="line">      &lt;mat-form-field&gt;</span><br><span class="line">        &lt;mat-label&gt;Address&lt;&#x2F;mat-label&gt;</span><br><span class="line">        &lt;input matInput formControlName&#x3D;&quot;secondCtrl&quot; placeholder&#x3D;&quot;Ex. 1 Main St, New York, NY&quot;</span><br><span class="line">               required&gt;</span><br><span class="line">      &lt;&#x2F;mat-form-field&gt;</span><br><span class="line">      &lt;div&gt;</span><br><span class="line">        &lt;button mat-button matStepperPrevious&gt;Back&lt;&#x2F;button&gt;</span><br><span class="line">        &lt;button mat-button matStepperNext&gt;Next&lt;&#x2F;button&gt;</span><br><span class="line">      &lt;&#x2F;div&gt;</span><br><span class="line">    &lt;&#x2F;form&gt;</span><br><span class="line">  &lt;&#x2F;mat-step&gt;</span><br><span class="line">  &lt;mat-step&gt;</span><br><span class="line">    &lt;ng-template matStepLabel&gt;Done&lt;&#x2F;ng-template&gt;</span><br><span class="line">    &lt;p&gt;You are now done.&lt;&#x2F;p&gt;</span><br><span class="line">    &lt;div&gt;</span><br><span class="line">      &lt;button mat-button matStepperPrevious&gt;Back&lt;&#x2F;button&gt;</span><br><span class="line">      &lt;button mat-button&gt;Reset&lt;&#x2F;button&gt;</span><br><span class="line">    &lt;&#x2F;div&gt;</span><br><span class="line">  &lt;&#x2F;mat-step&gt;</span><br><span class="line">&lt;&#x2F;mat-horizontal-stepper&gt;</span><br></pre></td></tr></table></figure>
+
+<h3 id="3-建立formGroup並設定好要驗證的欄位"><a href="#3-建立formGroup並設定好要驗證的欄位" class="headerlink" title="3. 建立formGroup並設定好要驗證的欄位"></a><strong>3. 建立formGroup並設定好要驗證的欄位</strong></h3><p>雖然有三個步驟，但只有前面兩個步驟需要欄位驗證，所以建立兩個formGroup，其中有發現還多了個a1CheckedArray比較特別，等於是在formGroup下建了一個a1CheckedArray欄位且必須驗證是否任何一個選項有被勾選了才能驗證通過。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; app.component.ts</span><br><span class="line">ngOnInit() &#123;</span><br><span class="line">    this.firstFormGroup &#x3D; this._formBuilder.group(&#123;</span><br><span class="line">      firstCtrl: [&#39;&#39;, Validators.required],</span><br><span class="line">      a1CheckdArray: this._formBuilder.array([], Validators.required),</span><br><span class="line">    &#125;)</span><br><span class="line">    this.secondFormGroup &#x3D; this._formBuilder.group(&#123;</span><br><span class="line">      secondCtrl: [&#39;&#39;, Validators.required]</span><br><span class="line">    &#125;);</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="二、透過typescript的interface導入問卷題目，並且轉成後續要用的陣列跟物件"><a href="#二、透過typescript的interface導入問卷題目，並且轉成後續要用的陣列跟物件" class="headerlink" title="二、透過typescript的interface導入問卷題目，並且轉成後續要用的陣列跟物件"></a><strong>二、透過typescript的interface導入問卷題目，並且轉成後續要用的陣列跟物件</strong></h2><p>因為問卷的選項未來可能會常常改，所以選項的部分不是寫死在HTML裡面，而是寫在interface上方便未來維護，這一段可能要花點時間理解，會有點繞喔~</p>
+<h3 id="1-建立interface並寫兩個get方法，分別取用interface這個物件的keys跟values給後面要用"><a href="#1-建立interface並寫兩個get方法，分別取用interface這個物件的keys跟values給後面要用" class="headerlink" title="1.建立interface並寫兩個get方法，分別取用interface這個物件的keys跟values給後面要用"></a><strong>1.建立interface並寫兩個get方法，分別取用interface這個物件的keys跟values給後面要用</strong></h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; app.component.ts</span><br><span class="line">enum OrderA1 &#123;</span><br><span class="line">  opt1 &#x3D; &#39;舒適性&#39;,</span><br><span class="line">  opt2 &#x3D; &#39;續航力&#39;,</span><br><span class="line">  opt3 &#x3D; &#39;價格經濟&#39;,</span><br><span class="line">  opt4 &#x3D; &#39;外型亮眼&#39;,</span><br><span class="line">  opt5 &#x3D; &#39;其他&#39;,</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">get OrderA1Keys() &#123; return Object.keys(OrderA1) &#125;</span><br><span class="line">get OrderA1() &#123; return Object.values(OrderA1); &#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="2-把從interface拿到的陣列存到this-a1OptionsArray這個變數中"><a href="#2-把從interface拿到的陣列存到this-a1OptionsArray這個變數中" class="headerlink" title="2.把從interface拿到的陣列存到this.a1OptionsArray這個變數中"></a><strong>2.把從interface拿到的陣列存到this.a1OptionsArray這個變數中</strong></h3><p>this.a1OptionsArray最後會是長這樣: [‘op1’,op2,…]這會用在HTML那邊要透過ngFor列印時，塞value到每個選項的input使用，並且也用於要比對該選項是否有被checked是否需要disabled時使用。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; app.component.ts</span><br><span class="line">a1OptionsToArray: Array&lt;string&gt;;</span><br><span class="line">a1OptionsToObject: &#123;</span><br><span class="line">    [optionKey: string]: &#123; name: string, checked: boolean &#125;</span><br><span class="line">  &#125; &#x3D; &#123;&#125;;</span><br><span class="line"></span><br><span class="line">ngOnInit() &#123;</span><br><span class="line">    this.a1OptionsToArray &#x3D; this.OrderA1Keys;</span><br><span class="line">    this.a1OptionsToArray.forEach(</span><br><span class="line">      optionKey &#x3D;&gt; &#123;</span><br><span class="line">        this.a1OptionsToObject[optionKey] &#x3D; &#123; name: OrderA1[optionKey], checked: false &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    )</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="3-再把這個陣列取出來加工，一個一個搭配checked屬性存到this-a1OptionsObject這個物件中。"><a href="#3-再把這個陣列取出來加工，一個一個搭配checked屬性存到this-a1OptionsObject這個物件中。" class="headerlink" title="3.再把這個陣列取出來加工，一個一個搭配checked屬性存到this.a1OptionsObject這個物件中。"></a><strong>3.再把這個陣列取出來加工，一個一個搭配checked屬性存到this.a1OptionsObject這個物件中。</strong></h3><p>this.a1OptionsObject會是以原本的keys繼續當作key值，去組成新的物件，最後會是長這樣:{op1: {name:’舒適性’, checked: false}, op2: {name:’舒適性’, checked: false}…}這會用在兩個地方，HTML那邊來比對該選項是否有被checked是否需要disabled時使用；在ts邊則是用在比對出中文字存到formArray裡面。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; app.component.ts</span><br><span class="line">a1OptionsToArray: Array&lt;string&gt;;</span><br><span class="line">a1OptionsToObject: &#123;</span><br><span class="line">    [optionKey: string]: &#123; name: string, checked: boolean &#125;</span><br><span class="line">  &#125; &#x3D; &#123;&#125;;</span><br><span class="line"></span><br><span class="line">ngOnInit() &#123;</span><br><span class="line">    this.a1OptionsToArray &#x3D; this.OrderA1Keys;</span><br><span class="line">    this.a1OptionsToArray.forEach(</span><br><span class="line">      optionKey &#x3D;&gt; &#123;</span><br><span class="line">        this.a1OptionsToObject[optionKey] &#x3D; &#123; name: OrderA1[optionKey], checked: false &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    )</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="三、建立a1CheckboxChange函式把選擇的選項結果直接轉成乾淨的字串陣列"><a href="#三、建立a1CheckboxChange函式把選擇的選項結果直接轉成乾淨的字串陣列" class="headerlink" title="三、建立a1CheckboxChange函式把選擇的選項結果直接轉成乾淨的字串陣列"></a><strong>三、建立a1CheckboxChange函式把選擇的選項結果直接轉成乾淨的字串陣列</strong></h2><h3 id="1-透過此一函式去獲得HTML那邊傳進來的value"><a href="#1-透過此一函式去獲得HTML那邊傳進來的value" class="headerlink" title="1.透過此一函式去獲得HTML那邊傳進來的value"></a><strong>1.透過此一函式去獲得HTML那邊傳進來的value</strong></h3><p>這個vlaue其實就會是a1OptionsToArray的op1或op2或op3…</p>
+<h3 id="2-判斷傳進來的是不是有被勾選checked了"><a href="#2-判斷傳進來的是不是有被勾選checked了" class="headerlink" title="2.判斷傳進來的是不是有被勾選checked了"></a><strong>2.判斷傳進來的是不是有被勾選checked了</strong></h3><p>特別補充說明一下，這傳進來的checked跟我們前面在建立物件時對應的checked不一樣喔，他這個checked就是HTML自己原生的屬性checked，不要搞混了。</p>
+<h3 id="3-如果被勾選了，才會去把value丟進去前面建立的a1OptionsToObject物件比對出中文字，並塞到a1CheckdArray，到時候輸出整個formgroup的時候就會看到這一欄是可以方便取用的中文字陣列了。"><a href="#3-如果被勾選了，才會去把value丟進去前面建立的a1OptionsToObject物件比對出中文字，並塞到a1CheckdArray，到時候輸出整個formgroup的時候就會看到這一欄是可以方便取用的中文字陣列了。" class="headerlink" title="3.如果被勾選了，才會去把value丟進去前面建立的a1OptionsToObject物件比對出中文字，並塞到a1CheckdArray，到時候輸出整個formgroup的時候就會看到這一欄是可以方便取用的中文字陣列了。"></a><strong>3.如果被勾選了，才會去把value丟進去前面建立的a1OptionsToObject物件比對出中文字，並塞到a1CheckdArray，到時候輸出整個formgroup的時候就會看到這一欄是可以方便取用的中文字陣列了。</strong></h3><p>同時也會把該選項在物件內的checked寫成true，這樣HTML那邊的diabled才知道甚麼時候要把其他選項鎖起來。</p>
+<h3 id="4-如果沒有被勾選，就會拿出a1CheckdArray去跟現在送進來取消勾選的選項本身的中文字逐一做比對，如果有比對到第幾次，就相對能推算出相同的中文字是在陣列中的第幾位，就能順勢將a1CheckdArray裡的中文字刪除掉了。"><a href="#4-如果沒有被勾選，就會拿出a1CheckdArray去跟現在送進來取消勾選的選項本身的中文字逐一做比對，如果有比對到第幾次，就相對能推算出相同的中文字是在陣列中的第幾位，就能順勢將a1CheckdArray裡的中文字刪除掉了。" class="headerlink" title="4.如果沒有被勾選，就會拿出a1CheckdArray去跟現在送進來取消勾選的選項本身的中文字逐一做比對，如果有比對到第幾次，就相對能推算出相同的中文字是在陣列中的第幾位，就能順勢將a1CheckdArray裡的中文字刪除掉了。"></a><strong>4.如果沒有被勾選，就會拿出a1CheckdArray去跟現在送進來取消勾選的選項本身的中文字逐一做比對，如果有比對到第幾次，就相對能推算出相同的中文字是在陣列中的第幾位，就能順勢將a1CheckdArray裡的中文字刪除掉了。</strong></h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; app.component.ts</span><br><span class="line">a1CheckboxChange(event) &#123;</span><br><span class="line">    const a1CheckdArray: FormArray &#x3D; this.firstFormGroup.get(&#39;a1CheckdArray&#39;) as FormArray;</span><br><span class="line">    const value &#x3D; event.target.value;</span><br><span class="line">    if (event.target.checked) &#123;</span><br><span class="line">      a1CheckdArray.push(new FormControl(this.a1OptionsToObject[value][&#39;name&#39;]));</span><br><span class="line">      this.a1OptionsToObject[value][&#39;checked&#39;] &#x3D; true;</span><br><span class="line">    &#125; else &#123;</span><br><span class="line">      let i &#x3D; 0;</span><br><span class="line">      a1CheckdArray.controls.forEach((item: FormControl) &#x3D;&gt; &#123;</span><br><span class="line">        if (item.value &#x3D;&#x3D;&#x3D; this.a1OptionsToObject[value][&#39;name&#39;]) &#123;</span><br><span class="line">          a1CheckdArray.removeAt(i);</span><br><span class="line">          this.a1OptionsToObject[value][&#39;checked&#39;] &#x3D; false;</span><br><span class="line">          return;</span><br><span class="line">        &#125;</span><br><span class="line">        i++;</span><br><span class="line">      &#125;);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="四、建立a1OptionLimitTo3限制最多只能選三個選項"><a href="#四、建立a1OptionLimitTo3限制最多只能選三個選項" class="headerlink" title="四、建立a1OptionLimitTo3限制最多只能選三個選項"></a><strong>四、建立a1OptionLimitTo3限制最多只能選三個選項</strong></h2><p>這邊概念就簡單多了，就是直接驗證前面建立的那個formGroup裡面那個a1CheckArray陣列裡面有被塞的值是不是已經滿三個了，如果是的話就會把整個欄位鎖起來，才能使其他本來在物件裡的checked是false的選項都被鎖起來無法選。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; app.component.ts</span><br><span class="line">  a1OptionLimitTo3() &#123;</span><br><span class="line">    if (this.firstFormGroup.get(&#39;a1CheckdArray&#39;).value.length &#x3D;&#x3D;&#x3D; 3) &#123;</span><br><span class="line">      this.a1Disabled &#x3D; true;</span><br><span class="line">    &#125; else &#123;</span><br><span class="line">      this.a1Disabled &#x3D; false;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+
+<p>以上說明如果看不懂，可能直接去拿我stackblitz上的那個code去操作會比較容易理解XD</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/javascript/" rel="tag"># javascript</a>
+              <a href="/tags/angular/" rel="tag"># angular</a>
+              <a href="/tags/angular-stepper/" rel="tag"># angular stepper</a>
+              <a href="/tags/angular-formarray/" rel="tag"># angular formarray</a>
+              <a href="/tags/angular-formgroup/" rel="tag"># angular formgroup</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/firebase-cloud-functions-CORS-and-HttpErrorResponse/" rel="prev" title="firebase Cloud Functions onRequest function出現CORS及HttpErrorResponse">
+      <i class="fa fa-chevron-left"></i> firebase Cloud Functions onRequest function出現CORS及HttpErrorResponse
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目錄
+        </li>
+        <li class="sidebar-nav-overview">
+          本站概要
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%80%E3%80%81%E4%BD%BF%E7%94%A8mat-stepper%E5%BB%BA%E7%AB%8B%E6%AD%A5%E9%A9%9F%E7%9A%84%E9%A9%97%E8%AD%89"><span class="nav-number">1.</span> <span class="nav-text">一、使用mat-stepper建立步驟的驗證</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-import%E8%A6%81%E7%94%A8%E5%88%B0%E7%9A%84%E5%B9%BE%E5%80%8B%E5%A5%97%E4%BB%B6-%E8%A8%98%E5%BE%97%E5%9C%A8ngModule%E7%9A%84imports%E8%A6%81%E8%A8%98%E5%BE%97%E5%BC%95%E5%85%A5"><span class="nav-number">1.1.</span> <span class="nav-text">1.import要用到的幾個套件(記得在ngModule的imports要記得引入)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-%E5%BB%BA%E7%AB%8Btemplate-%E8%A3%A1%E9%9D%A2%E6%9C%89%E4%B8%80%E4%BA%9B%E8%AE%8A%E6%95%B8%E5%88%B0%E5%BE%8C%E9%9D%A2%E6%9C%83%E6%8F%90%E5%88%B0"><span class="nav-number">1.2.</span> <span class="nav-text">2.建立template(裡面有一些變數到後面會提到)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-%E5%BB%BA%E7%AB%8BformGroup%E4%B8%A6%E8%A8%AD%E5%AE%9A%E5%A5%BD%E8%A6%81%E9%A9%97%E8%AD%89%E7%9A%84%E6%AC%84%E4%BD%8D"><span class="nav-number">1.3.</span> <span class="nav-text">3. 建立formGroup並設定好要驗證的欄位</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%8C%E3%80%81%E9%80%8F%E9%81%8Etypescript%E7%9A%84interface%E5%B0%8E%E5%85%A5%E5%95%8F%E5%8D%B7%E9%A1%8C%E7%9B%AE%EF%BC%8C%E4%B8%A6%E4%B8%94%E8%BD%89%E6%88%90%E5%BE%8C%E7%BA%8C%E8%A6%81%E7%94%A8%E7%9A%84%E9%99%A3%E5%88%97%E8%B7%9F%E7%89%A9%E4%BB%B6"><span class="nav-number">2.</span> <span class="nav-text">二、透過typescript的interface導入問卷題目，並且轉成後續要用的陣列跟物件</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-%E5%BB%BA%E7%AB%8Binterface%E4%B8%A6%E5%AF%AB%E5%85%A9%E5%80%8Bget%E6%96%B9%E6%B3%95%EF%BC%8C%E5%88%86%E5%88%A5%E5%8F%96%E7%94%A8interface%E9%80%99%E5%80%8B%E7%89%A9%E4%BB%B6%E7%9A%84keys%E8%B7%9Fvalues%E7%B5%A6%E5%BE%8C%E9%9D%A2%E8%A6%81%E7%94%A8"><span class="nav-number">2.1.</span> <span class="nav-text">1.建立interface並寫兩個get方法，分別取用interface這個物件的keys跟values給後面要用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-%E6%8A%8A%E5%BE%9Einterface%E6%8B%BF%E5%88%B0%E7%9A%84%E9%99%A3%E5%88%97%E5%AD%98%E5%88%B0this-a1OptionsArray%E9%80%99%E5%80%8B%E8%AE%8A%E6%95%B8%E4%B8%AD"><span class="nav-number">2.2.</span> <span class="nav-text">2.把從interface拿到的陣列存到this.a1OptionsArray這個變數中</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-%E5%86%8D%E6%8A%8A%E9%80%99%E5%80%8B%E9%99%A3%E5%88%97%E5%8F%96%E5%87%BA%E4%BE%86%E5%8A%A0%E5%B7%A5%EF%BC%8C%E4%B8%80%E5%80%8B%E4%B8%80%E5%80%8B%E6%90%AD%E9%85%8Dchecked%E5%B1%AC%E6%80%A7%E5%AD%98%E5%88%B0this-a1OptionsObject%E9%80%99%E5%80%8B%E7%89%A9%E4%BB%B6%E4%B8%AD%E3%80%82"><span class="nav-number">2.3.</span> <span class="nav-text">3.再把這個陣列取出來加工，一個一個搭配checked屬性存到this.a1OptionsObject這個物件中。</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%89%E3%80%81%E5%BB%BA%E7%AB%8Ba1CheckboxChange%E5%87%BD%E5%BC%8F%E6%8A%8A%E9%81%B8%E6%93%87%E7%9A%84%E9%81%B8%E9%A0%85%E7%B5%90%E6%9E%9C%E7%9B%B4%E6%8E%A5%E8%BD%89%E6%88%90%E4%B9%BE%E6%B7%A8%E7%9A%84%E5%AD%97%E4%B8%B2%E9%99%A3%E5%88%97"><span class="nav-number">3.</span> <span class="nav-text">三、建立a1CheckboxChange函式把選擇的選項結果直接轉成乾淨的字串陣列</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-%E9%80%8F%E9%81%8E%E6%AD%A4%E4%B8%80%E5%87%BD%E5%BC%8F%E5%8E%BB%E7%8D%B2%E5%BE%97HTML%E9%82%A3%E9%82%8A%E5%82%B3%E9%80%B2%E4%BE%86%E7%9A%84value"><span class="nav-number">3.1.</span> <span class="nav-text">1.透過此一函式去獲得HTML那邊傳進來的value</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-%E5%88%A4%E6%96%B7%E5%82%B3%E9%80%B2%E4%BE%86%E7%9A%84%E6%98%AF%E4%B8%8D%E6%98%AF%E6%9C%89%E8%A2%AB%E5%8B%BE%E9%81%B8checked%E4%BA%86"><span class="nav-number">3.2.</span> <span class="nav-text">2.判斷傳進來的是不是有被勾選checked了</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-%E5%A6%82%E6%9E%9C%E8%A2%AB%E5%8B%BE%E9%81%B8%E4%BA%86%EF%BC%8C%E6%89%8D%E6%9C%83%E5%8E%BB%E6%8A%8Avalue%E4%B8%9F%E9%80%B2%E5%8E%BB%E5%89%8D%E9%9D%A2%E5%BB%BA%E7%AB%8B%E7%9A%84a1OptionsToObject%E7%89%A9%E4%BB%B6%E6%AF%94%E5%B0%8D%E5%87%BA%E4%B8%AD%E6%96%87%E5%AD%97%EF%BC%8C%E4%B8%A6%E5%A1%9E%E5%88%B0a1CheckdArray%EF%BC%8C%E5%88%B0%E6%99%82%E5%80%99%E8%BC%B8%E5%87%BA%E6%95%B4%E5%80%8Bformgroup%E7%9A%84%E6%99%82%E5%80%99%E5%B0%B1%E6%9C%83%E7%9C%8B%E5%88%B0%E9%80%99%E4%B8%80%E6%AC%84%E6%98%AF%E5%8F%AF%E4%BB%A5%E6%96%B9%E4%BE%BF%E5%8F%96%E7%94%A8%E7%9A%84%E4%B8%AD%E6%96%87%E5%AD%97%E9%99%A3%E5%88%97%E4%BA%86%E3%80%82"><span class="nav-number">3.3.</span> <span class="nav-text">3.如果被勾選了，才會去把value丟進去前面建立的a1OptionsToObject物件比對出中文字，並塞到a1CheckdArray，到時候輸出整個formgroup的時候就會看到這一欄是可以方便取用的中文字陣列了。</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-%E5%A6%82%E6%9E%9C%E6%B2%92%E6%9C%89%E8%A2%AB%E5%8B%BE%E9%81%B8%EF%BC%8C%E5%B0%B1%E6%9C%83%E6%8B%BF%E5%87%BAa1CheckdArray%E5%8E%BB%E8%B7%9F%E7%8F%BE%E5%9C%A8%E9%80%81%E9%80%B2%E4%BE%86%E5%8F%96%E6%B6%88%E5%8B%BE%E9%81%B8%E7%9A%84%E9%81%B8%E9%A0%85%E6%9C%AC%E8%BA%AB%E7%9A%84%E4%B8%AD%E6%96%87%E5%AD%97%E9%80%90%E4%B8%80%E5%81%9A%E6%AF%94%E5%B0%8D%EF%BC%8C%E5%A6%82%E6%9E%9C%E6%9C%89%E6%AF%94%E5%B0%8D%E5%88%B0%E7%AC%AC%E5%B9%BE%E6%AC%A1%EF%BC%8C%E5%B0%B1%E7%9B%B8%E5%B0%8D%E8%83%BD%E6%8E%A8%E7%AE%97%E5%87%BA%E7%9B%B8%E5%90%8C%E7%9A%84%E4%B8%AD%E6%96%87%E5%AD%97%E6%98%AF%E5%9C%A8%E9%99%A3%E5%88%97%E4%B8%AD%E7%9A%84%E7%AC%AC%E5%B9%BE%E4%BD%8D%EF%BC%8C%E5%B0%B1%E8%83%BD%E9%A0%86%E5%8B%A2%E5%B0%87a1CheckdArray%E8%A3%A1%E7%9A%84%E4%B8%AD%E6%96%87%E5%AD%97%E5%88%AA%E9%99%A4%E6%8E%89%E4%BA%86%E3%80%82"><span class="nav-number">3.4.</span> <span class="nav-text">4.如果沒有被勾選，就會拿出a1CheckdArray去跟現在送進來取消勾選的選項本身的中文字逐一做比對，如果有比對到第幾次，就相對能推算出相同的中文字是在陣列中的第幾位，就能順勢將a1CheckdArray裡的中文字刪除掉了。</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9B%9B%E3%80%81%E5%BB%BA%E7%AB%8Ba1OptionLimitTo3%E9%99%90%E5%88%B6%E6%9C%80%E5%A4%9A%E5%8F%AA%E8%83%BD%E9%81%B8%E4%B8%89%E5%80%8B%E9%81%B8%E9%A0%85"><span class="nav-number">4.</span> <span class="nav-text">四、建立a1OptionLimitTo3限制最多只能選三個選項</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Shawn</p>
+  <div class="site-description" itemprop="description">希望我可以每週持續更新，加油~~</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">6</span>
+          <span class="site-state-item-name">文章</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">3</span>
+        <span class="site-state-item-name">分類</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">11</span>
+        <span class="site-state-item-name">標籤</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/surferintaiwan" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;surferintaiwan" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Shawn</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> 強力驅動
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>
