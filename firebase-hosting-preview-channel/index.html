@@ -27,16 +27,15 @@
 <meta property="og:site_name" content="不Shawn樣的部落格">
 <meta property="og:description" content="以前開發前端頁面的時候，都會建兩個hosting，一個是正式環境、一個是測試環境像下面這樣。 但現在不用這麼麻煩了，只需要建立一個hosting，至於想要在同一個hosting下產出多少個測試環境都沒關係都不會影響到正式環境，因為他會依據我們建立的每個測試環境再產出一個全新的網址出來。 會發現這個是因為最近在幫客戶改功能，但我們PM把正式環境網址跟測試環境網址都提供給客戶了，所以需要再建一個hos">
 <meta property="og:locale" content="zh_TW">
-<meta property="og:image" content="http://surferintaiwan.github.io/firebase-hosting-preview-channel/firebase_hosting.png">
-<meta property="og:image" content="http://surferintaiwan.github.io/firebase-hosting-preview-channel/firebase_hosting_preview_channel_structure.png">
-<meta property="og:image" content="http://surferintaiwan.github.io/firebase-hosting-preview-channel/preview_channel_success.png">
+<meta property="og:image" content="http://surferintaiwan.github.io/firebase-hosting-preview-channel/firebase-hosting-preview-channel/firebase_hosting.png">
+<meta property="og:image" content="http://surferintaiwan.github.io/firebase-hosting-preview-channel/firebase-hosting-preview-channel/firebase_hosting_preview_channel_structure.png">
+<meta property="og:image" content="http://surferintaiwan.github.io/firebase-hosting-preview-channel/firebase-hosting-preview-channel/preview_channel_success.png">
 <meta property="article:published_time" content="2021-04-28T13:48:29.000Z">
-<meta property="article:modified_time" content="2021-04-28T14:27:23.790Z">
+<meta property="article:modified_time" content="2021-05-13T15:19:09.222Z">
 <meta property="article:author" content="Shawn">
-<meta property="article:tag" content="firebase">
-<meta property="article:tag" content="hosting">
+<meta property="article:tag" content="firebase hosting">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://surferintaiwan.github.io/firebase-hosting-preview-channel/firebase_hosting.png">
+<meta name="twitter:image" content="http://surferintaiwan.github.io/firebase-hosting-preview-channel/firebase-hosting-preview-channel/firebase_hosting.png">
 
 <link rel="canonical" href="http://surferintaiwan.github.io/firebase-hosting-preview-channel/">
 
@@ -203,10 +202,16 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">發表於</span>
-              
 
-              <time title="創建時間：2021-04-28 21:48:29 / 修改時間：22:27:23" itemprop="dateCreated datePublished" datetime="2021-04-28T21:48:29+08:00">2021-04-28</time>
+              <time title="創建時間：2021-04-28 21:48:29" itemprop="dateCreated datePublished" datetime="2021-04-28T21:48:29+08:00">2021-04-28</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新於</span>
+                <time title="修改時間：2021-05-13 23:19:09" itemprop="dateModified" datetime="2021-05-13T23:19:09+08:00">2021-05-13</time>
+              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="far fa-folder"></i>
@@ -231,9 +236,9 @@
         <p>以前開發前端頁面的時候，都會建兩個hosting，一個是正式環境、一個是測試環境像下面這樣。</p>
 <p>但現在不用這麼麻煩了，只需要建立一個hosting，至於想要在同一個hosting下產出多少個測試環境都沒關係都不會影響到正式環境，因為他會依據我們建立的每個測試環境再產出一個全新的網址出來。</p>
 <p>會發現這個是因為最近在幫客戶改功能，但我們PM把正式環境網址跟測試環境網址都提供給客戶了，所以需要再建一個hosting作為真正的內部開發環境來用，可是還需要改個<code>firebase.json</code>和<code>.firebaserc</code>，因此也在無意間發現了Firebase Hosting Preview Channel這個不曾用過的功能。</p>
-<p><img src="firebase_hosting.png" alt="firebase_hosting"></p>
+<p><img src="firebase-hosting-preview-channel/firebase_hosting.png" alt="firebase_hosting"></p>
 <h2 id="Firebase-Hosting-Preview-Channel"><a href="#Firebase-Hosting-Preview-Channel" class="headerlink" title="Firebase Hosting Preview Channel"></a>Firebase Hosting Preview Channel</h2><p><a target="_blank" rel="noopener" href="https://firebase.google.com/docs/hosting/manage-hosting-resources">詳細官方文件</a>可以看這，以前我們直接deploy上去hosting的時候，都是在Live Channel上，但如下圖現在我們可以deploy很多個Preview channel，每個Preview channel都會有獨立的網址可以用，甚至可以限制該網址的有效期限。</p>
-<p><img src="firebase_hosting_preview_channel_structure.png" alt="firebase_hosting_preview_channel_structure"></p>
+<p><img src="firebase-hosting-preview-channel/firebase_hosting_preview_channel_structure.png" alt="firebase_hosting_preview_channel_structure"></p>
 <h2 id="下channel指令部署到特定的hosting之下"><a href="#下channel指令部署到特定的hosting之下" class="headerlink" title="下channel指令部署到特定的hosting之下"></a>下channel指令部署到特定的hosting之下</h2><figure class="highlight jsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">firebase hosting:channel:deploy --only TARGET_NAME CHANNEL_ID --expires 1d</span><br></pre></td></tr></table></figure>
 
 <ul>
@@ -247,7 +252,7 @@
 <li>bbb: 就是CHANNEL_ID，也就是preview</li>
 <li>ccc: 自動產的亂數隨機碼</li>
 </ul>
-<p>hosting後台也可以看到多了一個channel如下圖。<br><img src="preview_channel_success.png" alt="preview_channel_success"></p>
+<p>hosting後台也可以看到多了一個channel如下圖。<br><img src="firebase-hosting-preview-channel/preview_channel_success.png" alt="preview_channel_success"></p>
 
     </div>
 
@@ -257,8 +262,7 @@
 
       <footer class="post-footer">
           <div class="post-tags">
-              <a href="/tags/firebase/" rel="tag"># firebase</a>
-              <a href="/tags/hosting/" rel="tag"># hosting</a>
+              <a href="/tags/firebase-hosting/" rel="tag"># firebase hosting</a>
           </div>
 
         
@@ -270,7 +274,10 @@
     <a href="/angular-signaturepad/" rel="prev" title="angular簽名板">
       <i class="fa fa-chevron-left"></i> angular簽名板
     </a></div>
-      <div class="post-nav-item"></div>
+      <div class="post-nav-item">
+    <a href="/firebase-cloud-functions-CORS-and-HttpErrorResponse/" rel="next" title="firebase Cloud Functions onRequest function出現CORS及HttpErrorResponse">
+      firebase Cloud Functions onRequest function出現CORS及HttpErrorResponse <i class="fa fa-chevron-right"></i>
+    </a></div>
     </div>
       </footer>
     
@@ -343,7 +350,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">5</span>
+          <span class="site-state-item-count">6</span>
           <span class="site-state-item-name">文章</span>
         </a>
       </div>
