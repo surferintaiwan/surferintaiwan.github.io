@@ -195,8 +195,18 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">發表於</span>
+              
 
-              <time title="創建時間：2021-06-26 17:59:05" itemprop="dateCreated datePublished" datetime="2021-06-26T17:59:05+08:00">2021-06-26</time>
+              <time title="創建時間：2021-06-26 17:59:05 / 修改時間：18:31:49" itemprop="dateCreated datePublished" datetime="2021-06-26T17:59:05+08:00">2021-06-26</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分類於</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/chatbot/" itemprop="url" rel="index"><span itemprop="name">chatbot</span></a>
+                </span>
             </span>
 
           
@@ -210,7 +220,12 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          
+          <h2 id="使用dialogflow-SDK一直報錯UNAUTHENTICATED"><a href="#使用dialogflow-SDK一直報錯UNAUTHENTICATED" class="headerlink" title="使用dialogflow SDK一直報錯UNAUTHENTICATED"></a>使用dialogflow SDK一直報錯UNAUTHENTICATED</h2><p>最近在寫LINE chatbot並搭配dialogflow來判斷使用者輸入文字意圖，在本地跑是正常的可以獲得detectIntent後的回應，但是在串dialogflow的時候就一直出現UNAUTHENTICATED，查了半天終於找到原因，是private_key讀取有問題。<br><img src="/herokuo-config-variable-for-dialogflow-privatekey/UNAUTHENTICATED-in-dialogflow.png" alt="herokuo-config-variable-for-dialogflow-privatekey"></p>
+<h2 id="原來是heroku對於環境變數中-n的判斷會有問題"><a href="#原來是heroku對於環境變數中-n的判斷會有問題" class="headerlink" title="原來是heroku對於環境變數中\n的判斷會有問題"></a>原來是heroku對於環境變數中\n的判斷會有問題</h2><p>不過我去查本地環境變數設的private_key和Heroku環境變數設的private_key是一樣的，再輾轉查到了一篇才知道是因為PRIVATE_KEY本身都是長大概這樣<code>----BEGIN PRIVATE KEY-----\nMY-PRIVATE-KEY\n-----END PRIVATE KEY-----\n</code>，而裡面的<code>\n</code>字元無法被判斷是什麼，所以就要經過<code>(process.env.DIALOGFLOW_PRIVATE_KEY as string).replace(/\\n/g, &#39;\n&#39;)</code>去處理，最後也終於可以正常串接dialogflow了。</p>
+<figure class="highlight jsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// dialogflow</span></span><br><span class="line"><span class="keyword">const</span> languageCode = <span class="string">&#x27;zh-TW&#x27;</span>;</span><br><span class="line"><span class="keyword">const</span> projectId = <span class="string">&#x27;my-line-chatbot-yutq&#x27;</span>;</span><br><span class="line"><span class="keyword">const</span> credentials = &#123;</span><br><span class="line">    client_email: process.env.DIALOGFLOW_CLIENT_EMAIL,</span><br><span class="line">    private_key: (process.env.DIALOGFLOW_PRIVATE_KEY <span class="keyword">as</span> string).replace(<span class="regexp">/\\n/g</span>, <span class="string">&#x27;\n&#x27;</span>)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> sessionClient = <span class="keyword">new</span> dialogflow.SessionsClient(&#123; projectId, credentials &#125;);</span><br></pre></td></tr></table></figure>
+
+<p>參考資料：<a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/39492587/escaping-issue-with-firebase-privatekey-as-a-heroku-config-variable/41044630">https://stackoverflow.com/questions/39492587/escaping-issue-with-firebase-privatekey-as-a-heroku-config-variable/41044630</a></p>
+
       
     </div>
 
@@ -849,13 +864,13 @@ if (ver[0] &gt;= 14) &#123;
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">3</span>
+        <span class="site-state-item-count">4</span>
         <span class="site-state-item-name">分類</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">11</span>
+        <span class="site-state-item-count">13</span>
         <span class="site-state-item-name">標籤</span></a>
       </div>
   </nav>
