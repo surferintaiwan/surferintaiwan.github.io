@@ -1,5 +1,5 @@
 ---
-title: invalid_date_value_in_safari
+title: 在SAFARI瀏覽器使用NEW DATE()出現RANGEERROR INVALID DATE VALUE
 date: 2021-03-11 22:59:58
 tags: 
 - javascript
