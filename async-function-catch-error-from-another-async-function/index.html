@@ -22,13 +22,13 @@
 
   <meta name="description" content="最近在寫功能的時候，常常會把一長串的程式封裝成幾個function，有的如果剛好裡面有需要await非同步的東西就需要再把該function包成async function，但就讓我產生一個疑問，究竟這樣多層的async await，在外層的catch能不能接到內層吐的error呢? Demo Code 先把結論寫在前面 答案是可以的。 發現另一件事，如果內層的async funciton本身已經">
 <meta property="og:type" content="article">
-<meta property="og:title" content="async-function-catch-error-from-another-async-function">
+<meta property="og:title" content="ASYNC FUNCTION再去AWAIT一個ASYNC FUNCTION，是否能夠順利CATCH到ERROR?">
 <meta property="og:url" content="http://surferintaiwan.github.io/async-function-catch-error-from-another-async-function/index.html">
 <meta property="og:site_name" content="不Shawn樣的部落格">
 <meta property="og:description" content="最近在寫功能的時候，常常會把一長串的程式封裝成幾個function，有的如果剛好裡面有需要await非同步的東西就需要再把該function包成async function，但就讓我產生一個疑問，究竟這樣多層的async await，在外層的catch能不能接到內層吐的error呢? Demo Code 先把結論寫在前面 答案是可以的。 發現另一件事，如果內層的async funciton本身已經">
 <meta property="og:locale" content="zh_TW">
 <meta property="article:published_time" content="2021-06-26T10:45:38.000Z">
-<meta property="article:modified_time" content="2021-06-26T10:48:39.023Z">
+<meta property="article:modified_time" content="2021-06-26T10:52:36.732Z">
 <meta property="article:author" content="Shawn">
 <meta property="article:tag" content="javascript">
 <meta name="twitter:card" content="summary">
@@ -46,7 +46,7 @@
   };
 </script>
 
-  <title>async-function-catch-error-from-another-async-function | 不Shawn樣的部落格</title>
+  <title>ASYNC FUNCTION再去AWAIT一個ASYNC FUNCTION，是否能夠順利CATCH到ERROR? | 不Shawn樣的部落格</title>
   
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-NH242MKL5C"></script>
     <script>
@@ -189,7 +189,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          async-function-catch-error-from-another-async-function
+          ASYNC FUNCTION再去AWAIT一個ASYNC FUNCTION，是否能夠順利CATCH到ERROR?
         </h1>
 
         <div class="post-meta">
@@ -200,7 +200,7 @@
               <span class="post-meta-item-text">發表於</span>
               
 
-              <time title="創建時間：2021-06-26 18:45:38 / 修改時間：18:48:39" itemprop="dateCreated datePublished" datetime="2021-06-26T18:45:38+08:00">2021-06-26</time>
+              <time title="創建時間：2021-06-26 18:45:38 / 修改時間：18:52:36" itemprop="dateCreated datePublished" datetime="2021-06-26T18:45:38+08:00">2021-06-26</time>
             </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
