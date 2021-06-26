@@ -20,21 +20,20 @@
     var CONFIG = {"hostname":"surferintaiwan.github.io","root":"/","scheme":"Pisces","version":"8.5.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
-  <meta name="description" content="因為先前有個新專案快要上線，PM就開始猛測試，發現某個表單用了iPhone的Safari去送出就會失敗，但Android手機的其他人用Chrome卻可以送出表單。 其實只要是Safari，手機遇到的問題，Mac上也會有不過我們沒有iPhone的轉接線可以轉接到電腦上看到底是報了什麼錯，只好不斷改code不斷寫alert不斷部署上去，用iPhone看看alert出來的資料，最後發現有個日期的部分印出">
+  <meta name="description" content="最近在寫功能的時候，常常會把一長串的程式封裝成幾個function，有的如果剛好裡面有需要await非同步的東西就需要再把該function包成async function，但就讓我產生一個疑問，究竟這樣多層的async await，在外層的catch能不能接到內層吐的error呢? Demo Code 先把結論寫在前面 答案是可以的。 發現另一件事，如果內層的async funciton本身已經">
 <meta property="og:type" content="article">
-<meta property="og:title" content="invalid_date_value_in_safari">
-<meta property="og:url" content="http://surferintaiwan.github.io/invalid-date-value-in-safari/index.html">
+<meta property="og:title" content="async-function-catch-error-from-another-async-function">
+<meta property="og:url" content="http://surferintaiwan.github.io/async-function-catch-error-from-another-async-function/index.html">
 <meta property="og:site_name" content="不Shawn樣的部落格">
-<meta property="og:description" content="因為先前有個新專案快要上線，PM就開始猛測試，發現某個表單用了iPhone的Safari去送出就會失敗，但Android手機的其他人用Chrome卻可以送出表單。 其實只要是Safari，手機遇到的問題，Mac上也會有不過我們沒有iPhone的轉接線可以轉接到電腦上看到底是報了什麼錯，只好不斷改code不斷寫alert不斷部署上去，用iPhone看看alert出來的資料，最後發現有個日期的部分印出">
+<meta property="og:description" content="最近在寫功能的時候，常常會把一長串的程式封裝成幾個function，有的如果剛好裡面有需要await非同步的東西就需要再把該function包成async function，但就讓我產生一個疑問，究竟這樣多層的async await，在外層的catch能不能接到內層吐的error呢? Demo Code 先把結論寫在前面 答案是可以的。 發現另一件事，如果內層的async funciton本身已經">
 <meta property="og:locale" content="zh_TW">
-<meta property="article:published_time" content="2021-03-11T14:59:58.000Z">
-<meta property="article:modified_time" content="2021-06-26T09:58:42.692Z">
+<meta property="article:published_time" content="2021-06-26T10:45:38.000Z">
+<meta property="article:modified_time" content="2021-06-26T10:48:39.023Z">
 <meta property="article:author" content="Shawn">
 <meta property="article:tag" content="javascript">
-<meta property="article:tag" content="safari">
 <meta name="twitter:card" content="summary">
 
-<link rel="canonical" href="http://surferintaiwan.github.io/invalid-date-value-in-safari/">
+<link rel="canonical" href="http://surferintaiwan.github.io/async-function-catch-error-from-another-async-function/">
 
 
 <script id="page-configurations">
@@ -47,7 +46,7 @@
   };
 </script>
 
-  <title>invalid_date_value_in_safari | 不Shawn樣的部落格</title>
+  <title>async-function-catch-error-from-another-async-function | 不Shawn樣的部落格</title>
   
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-NH242MKL5C"></script>
     <script>
@@ -177,7 +176,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-TW">
-    <link itemprop="mainEntityOfPage" href="http://surferintaiwan.github.io/invalid-date-value-in-safari/">
+    <link itemprop="mainEntityOfPage" href="http://surferintaiwan.github.io/async-function-catch-error-from-another-async-function/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -190,7 +189,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          invalid_date_value_in_safari
+          async-function-catch-error-from-another-async-function
         </h1>
 
         <div class="post-meta">
@@ -199,16 +198,10 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">發表於</span>
+              
 
-              <time title="創建時間：2021-03-11 22:59:58" itemprop="dateCreated datePublished" datetime="2021-03-11T22:59:58+08:00">2021-03-11</time>
+              <time title="創建時間：2021-06-26 18:45:38 / 修改時間：18:48:39" itemprop="dateCreated datePublished" datetime="2021-06-26T18:45:38+08:00">2021-06-26</time>
             </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新於</span>
-                <time title="修改時間：2021-06-26 17:58:42" itemprop="dateModified" datetime="2021-06-26T17:58:42+08:00">2021-06-26</time>
-              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="far fa-folder"></i>
@@ -230,13 +223,24 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <p>因為先前有個新專案快要上線，PM就開始猛測試，發現某個表單用了iPhone的Safari去送出就會失敗，但Android手機的其他人用Chrome卻可以送出表單。</p>
-<h2 id="其實只要是Safari，手機遇到的問題，Mac上也會有"><a href="#其實只要是Safari，手機遇到的問題，Mac上也會有" class="headerlink" title="其實只要是Safari，手機遇到的問題，Mac上也會有"></a>其實只要是Safari，手機遇到的問題，Mac上也會有</h2><p>不過我們沒有iPhone的轉接線可以轉接到電腦上看到底是報了什麼錯，只好不斷改code不斷寫alert不斷部署上去，用iPhone看看alert出來的資料，最後發現有個日期的部分印出來是NaN，而該日期是透過new Date()產生的，因此就開始往new Date()跟Safari的方向研究。</p>
-<p>(題外話，其實不用那麼蠢的說…因為我一開始聽信PM說Mac上的Safari沒問題，唯獨iPhone的Safari有問題，我只好一直不斷部署上去再用iPhone去測，最後當我找到問題時我才想到用一下Mac上的Safari去測一下，發現其實也是有問題的，如果我早點用Mac的Safari測，就可以馬上看到報錯是什麼，免去我抓問題抓那麼久Q”Q)</p>
-<h2 id="慎用new-Date"><a href="#慎用new-Date" class="headerlink" title="慎用new Date()"></a>慎用new Date()</h2><p>底下開始正式說明問題。我的需求是希望塞一個特定的日期時間進去new Date()，去產出一個我想要的date像是這樣<code>new Date(&#39;2013-05-13 03:00&#39;)</code>，但這樣的寫法在Chrome或其他瀏覽器上產出來的值確實是正確的date格式。</p>
-<p>可到了Safari上就會轉不過去了，<a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/16616950/date-function-returning-invalid-date-in-safari-and-firefox">上網查到這篇</a>，必須要寫成<code>new Date(&#39;2013-05-13T03:00:00Z&#39;)</code>，Safari才會順利讓new Date()產出我要的date格式。</p>
-<h2 id="Safari對於new-Date-使用較嚴格的感覺"><a href="#Safari對於new-Date-使用較嚴格的感覺" class="headerlink" title="Safari對於new Date()使用較嚴格的感覺"></a>Safari對於new Date()使用較嚴格的感覺</h2><p>總之是Safari比較嚴格，會需要你輸入new Date()裡面輸入的值要非常完整，至於Chrome之類其他的瀏覽器就沒那麼嚴格，輸入大致的時間格式就可以清楚幫你轉換了。</p>
-<h2 id="結論：日後有日產出特定date格式的需求，盡量以moment套件來做"><a href="#結論：日後有日產出特定date格式的需求，盡量以moment套件來做" class="headerlink" title="結論：日後有日產出特定date格式的需求，盡量以moment套件來做"></a>結論：日後有日產出特定date格式的需求，盡量以moment套件來做</h2><p>但其實要補中間的T跟後面的Z我覺得有點麻煩，最後是直接以moment套件寫<code>moment(&#39;2013-05-13 03:00&#39;).toDate()</code>，去產出我要的date格式，而以moment套件產出的date經實測確實可以讓Safari或Chrome等等瀏覽器都可以正常運行。</p>
+        <p>最近在寫功能的時候，常常會把一長串的程式封裝成幾個function，有的如果剛好裡面有需要await非同步的東西就需要再把該function包成async function，但就讓我產生一個疑問，究竟這樣多層的async await，在外層的catch能不能接到內層吐的error呢?</p>
+<p><a target="_blank" rel="noopener" href="https://stackblitz.com/edit/catcherror-for-another-asyncfunction?embed=1&file=index.js">Demo Code</a></p>
+<h2 id="先把結論寫在前面"><a href="#先把結論寫在前面" class="headerlink" title="先把結論寫在前面"></a>先把結論寫在前面</h2><ol>
+<li><strong>答案是可以的。</strong></li>
+<li><strong>發現另一件事，如果內層的async funciton本身已經有catch error掉了，外層的catch是不會接到error的，且外層後面的程式還是可以繼續往下走!!</strong></li>
+</ol>
+<h2 id="實驗"><a href="#實驗" class="headerlink" title="實驗"></a>實驗</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line">function promise1() &#123;</span><br><span class="line">  return new Promise((res, rej)&#x3D;&gt;&#123;</span><br><span class="line">    res(&#39;resolvePromise1&#39;)</span><br><span class="line">  &#125;)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">function promise2() &#123;</span><br><span class="line">    return new Promise((res, rej) &#x3D;&gt; &#123;</span><br><span class="line">    setTimeout(()&#x3D;&gt;&#123;</span><br><span class="line">      rej(&#39;rejectPromise2&#39;)</span><br><span class="line">    &#125;,5000)</span><br><span class="line">  &#125;)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">function promise3()&#123; </span><br><span class="line">  return new Promise((res, rej) &#x3D;&gt; &#123;</span><br><span class="line">    setTimeout(()&#x3D;&gt;&#123;</span><br><span class="line">      rej(&#39;rejectPromise3&#39;)</span><br><span class="line">    &#125;,5000)</span><br><span class="line">  &#125;)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">async function awaitPromise1AndTestPromise1AndPromise2() &#123;</span><br><span class="line">  try &#123;</span><br><span class="line">    const resultPromise1 &#x3D; await promise1()</span><br><span class="line">    console.log(resultPromise1)</span><br><span class="line">    const resultPromise2 &#x3D;  await awaitPromise2()</span><br><span class="line">    const resultPromise3 &#x3D; await awaitPromise3()</span><br><span class="line">  &#125; catch(error)&#123;</span><br><span class="line">    console.log(&#39;外層catch&#x3D;&gt;&#39;, error)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">async function awaitPromise2() &#123;</span><br><span class="line">  try &#123;</span><br><span class="line">    return await promise2()</span><br><span class="line">  &#125; catch(error) &#123;</span><br><span class="line">    console.log(&#39;內層catch&#x3D;&gt;&#39;, error)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">async function awaitPromise3() &#123;</span><br><span class="line">    return await promise3()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>這邊大概說明一下整個code:(但我覺得不用看說明，可能直接看code比較好懂)</p>
+<ol>
+<li><p>建立了三個promise，promise1只回resolve，promise2跟promise3只回reject，而重點會是在後兩者，因為我就是要看多層async function的try catch是怎麼接到error的。</p>
+</li>
+<li><p>建了三個async function，awaitPromise1AndTestPromise1AndPromise2 &gt; 拿來await另兩支async functionawaitPromise2 &gt; 用來await promise2，並且自己有個catch在接errorawaitPromise2 &gt; 用來await promise3，但自己沒有個catch在接error</p>
+</li>
+<li><p>接著整份code跑出來結果會是下面截圖這樣，3-a. 當呼叫awaitPromise1AndTestPromise1AndPromise2後，3-b. 程式執行到await awaitPromise2()時，因為他本身就有自己的try catch，所以錯誤訊息先在內層被印出來了，<strong>也就會印出內層catch=&gt; rejectPromise2</strong>這段字樣，<strong>從這部分就可以知道原來內層catch如果把error接到了，外層的catch就不會接到error，並能把後面的程式繼續執行。</strong>(但其實我在工作寫功能的時候，我幾乎都是會統一在最外層catch接error就是了，因為我不會希望某個await async funtion沒執行成功，但卻又執行另一個await async function)3-c. 程式不會因為前面的內層catch接到了error導致外層沒有執行，而是會繼續執行下去，所以執行到await awaitPromise3()時，外層的catch就會接到另一個error，<strong>也就會印出外層catch=&gt; rejectPromise3</strong>這段字樣，<strong>從這部分就可以知道原來外層catch是可以接到另一個async function吐出來的error的。</strong></p>
+</li>
+</ol>
+<p><a target="_blank" rel="noopener" href="https://stackblitz.com/edit/catcherror-for-another-asyncfunction?embed=1&amp;file=index.js">https://stackblitz.com/edit/catcherror-for-another-asyncfunction?embed=1&amp;file=index.js</a></p>
 
     </div>
 
@@ -247,7 +251,6 @@
       <footer class="post-footer">
           <div class="post-tags">
               <a href="/tags/javascript/" rel="tag"># javascript</a>
-              <a href="/tags/safari/" rel="tag"># safari</a>
           </div>
 
         
@@ -255,11 +258,11 @@
 
         
     <div class="post-nav">
-      <div class="post-nav-item"></div>
       <div class="post-nav-item">
-    <a href="/detectIOSVersion/" rel="next" title="檢查iOS版本號是否為14">
-      檢查iOS版本號是否為14 <i class="fa fa-chevron-right"></i>
+    <a href="/herokuo-config-variable-for-dialogflow-privatekey/" rel="prev" title="dialogflow在heroku上的環境變數設定">
+      <i class="fa fa-chevron-left"></i> dialogflow在heroku上的環境變數設定
     </a></div>
+      <div class="post-nav-item"></div>
     </div>
       </footer>
     
@@ -318,7 +321,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%B6%E5%AF%A6%E5%8F%AA%E8%A6%81%E6%98%AFSafari%EF%BC%8C%E6%89%8B%E6%A9%9F%E9%81%87%E5%88%B0%E7%9A%84%E5%95%8F%E9%A1%8C%EF%BC%8CMac%E4%B8%8A%E4%B9%9F%E6%9C%83%E6%9C%89"><span class="nav-number">1.</span> <span class="nav-text">其實只要是Safari，手機遇到的問題，Mac上也會有</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%85%8E%E7%94%A8new-Date"><span class="nav-number">2.</span> <span class="nav-text">慎用new Date()</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Safari%E5%B0%8D%E6%96%BCnew-Date-%E4%BD%BF%E7%94%A8%E8%BC%83%E5%9A%B4%E6%A0%BC%E7%9A%84%E6%84%9F%E8%A6%BA"><span class="nav-number">3.</span> <span class="nav-text">Safari對於new Date()使用較嚴格的感覺</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%B5%90%E8%AB%96%EF%BC%9A%E6%97%A5%E5%BE%8C%E6%9C%89%E6%97%A5%E7%94%A2%E5%87%BA%E7%89%B9%E5%AE%9Adate%E6%A0%BC%E5%BC%8F%E7%9A%84%E9%9C%80%E6%B1%82%EF%BC%8C%E7%9B%A1%E9%87%8F%E4%BB%A5moment%E5%A5%97%E4%BB%B6%E4%BE%86%E5%81%9A"><span class="nav-number">4.</span> <span class="nav-text">結論：日後有日產出特定date格式的需求，盡量以moment套件來做</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%88%E6%8A%8A%E7%B5%90%E8%AB%96%E5%AF%AB%E5%9C%A8%E5%89%8D%E9%9D%A2"><span class="nav-number">1.</span> <span class="nav-text">先把結論寫在前面</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AF%A6%E9%A9%97"><span class="nav-number">2.</span> <span class="nav-text">實驗</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
